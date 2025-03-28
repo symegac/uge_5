@@ -1,3 +1,5 @@
+Først dannede jeg mig et overblik over datasættet.
+
 Det ser ud til, at det først er, når ARRIVAL_DELAY er 15 min. eller over, at de egentlige årsager til forsinkelse skal oplyses.
 Derfor valgte jeg at fokusere på rejserne med >15 min. delay i ankomst.
 
@@ -9,10 +11,31 @@ De fleste af kolonnerne i tabellen kan beregnes ud fra kolonnerne med klokkeslæ
 * AIR_TIME = WHEELS_ON - WHEELS_OFF
 * TAXI_IN = ARRIVAL_TIME - WHEELS_ON
 * ARRIVAL_DELAY = ARRIVAL_TIME - SCHEDULED_ARRIVAL
+Man kunne derfor godt have lavet disse som udregninger og skære ned på størrelsen af datasættet.
 
-Jeg ændrede følgende på tabellen 'airports':
+Jeg rensede dataene og ændrede bl.a. datatypen for nogle af kolonnerne, f.eks. alle fircifrede timestamps fra tekst til klokkeslæt.
+Kolonnerne DIVERTED og CANCELLED med værdierne 0 og 1 blev ændret til en boolean datatype.
+Jeg rettede også nogle fejl i datasættet, bl.a. følgende koordinater i tabellen 'airports', for at sikre lufthavnene blev vist korrekt på kortet i Power BI:
 * Tilføjede koordinater 30.35833,-85.79556 til ECP
 * Tilføjede koordinater 44.65083,-73.46806 til PBG
 * Tilføjede koordinater 29.95925,-81.339722 til UST
 * Ændrede fortegn på længdegrad for GUM fra -144.79598 til 144.79598
 * Ændrede fortegn på breddegrad for PPG fra 14.33102 til -14.33102
+
+Jeg fandt desuden frem til identiteten af lufthavnene for oktober-dataene.
+Rækkefølgen af de femcifrede tal i ORIGIN_AIRPORT og DESTINATION_AIRPORT svarede heldigvis til den alfabetiske rækkefølge af IATA-koderne for lufthavnene, fandt jeg hurtigt ud af efter at have identificeret et par lufthavne.
+Så 10135 svarede til ABE, 10136 til ABI, 10140 til ABQ, osv., og det var ikke tilfældige tal, som jeg først troede.
+Det var dog ikke alle lufthavnene, der blev fløjet til/fra i oktober, så man kunne ikke bare kopiere listen over IATA-koder 1-til-1, da lufthavne uden rejser i oktober naturligvis ikke fik et femcifret tal.
+Der var 307 femcifrede tal i 'flights', men 322 IATA-koder i 'airports', så jeg var nødt til at sammenligne ud fra kolonnerne DISTANCE, AIRLINE, FLIGHT_NUMBER etc. for at identificere bestemte flyruter og derudfra lufthavne.
+Ved at lave en slags manuel binary search kunne jeg dog skære betydeligt ned på mængden af arbejde.
+Hvis jeg f.eks. havde identificeret 10135=ABE og 10849=BZN og vidste, at der var 50 uidentificerede talværdier mellem 10135 og 10849 og 51 IATA-koder mellem ABE og BZN, så kunne jeg gå efter at identificere nr. 25 i rækken, 10529.
+Når denne blev identificeret som BDL, kunne jeg så se, at der var 24 talværdier mellem 10135 og 10529, men 25 IATA-koder mellem ABE og BDL, og at der var lige mange talværdier og IATA-koder (25) mellem hhv. 10529 & 10849 og BDL & BZN.
+De 25 sidste talværdier måtte derfor svare til de 25 sidste IATA-koder 1-til-1 og kunne kædes sammen direkte.
+Herefter ville jeg så fortsætte til den midterste værdi mellem 10135 og 10529, nemlig 10208, for at splitte dette stykke op og på den måde halvere mængden af lufthavne at tjekke på et givent stykke ved kun at identificere en enkelt lufthavn.
+Når man identificerede en ORIGIN_AIRPORT fik man også en gratis DESTINATION_AIRPORT med i købet, som så kunne fungere som split i en anden del af listen af femcifrede tal og lette byrden yderligere.
+På et tidspunkt kunne jeg springe over 50 lufthavne i et ryk, fordi de passede ind i mellemrummet.
+Resultatet af denne proces kan findes i filen 'Flight data/5d_to_iata.csv'.
+
+Herefter skrev jeg et Python-script, der kunne tage alle tal-kode-parrene i ovenstående fil og konvertere dem til en PowerQuery-kommando, som jeg gennem transformation af datasættet kunne bruge til at erstatte talværdierne med de korrekte lufthavnskoder i Power BI.
+Dette script hedder 'powerquery.py'.
+Outputtet af dette script kan findes i 'Flight data/5d_to_iata-output.txt', og det endelige query brugt i PowerQuery kan findes i 'Flight data/powerquery.txt'
