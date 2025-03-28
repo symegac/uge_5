@@ -1,0 +1,18 @@
+Det ser ud til, at det først er, når ARRIVAL_DELAY er 15 min. eller over, at de egentlige årsager til forsinkelse skal oplyses.
+Derfor valgte jeg at fokusere på rejserne med >15 min. delay i ankomst.
+
+De fleste af kolonnerne i tabellen kan beregnes ud fra kolonnerne med klokkeslæt:
+* DEPARTURE_DELAY = DEPARTURE_TIME - SCHEDULED_DEPARTURE
+* TAXI_OUT = WHEELS_OFF - DEPARTURE_TIME
+* SCHEDULED_TIME = SCHEDULED_ARRIVAL - SCHEDULED_DEPARTURE
+* ELAPSED_TIME = ARRIVAL_TIME - DEPARTURE_TIME
+* AIR_TIME = WHEELS_ON - WHEELS_OFF
+* TAXI_IN = ARRIVAL_TIME - WHEELS_ON
+* ARRIVAL_DELAY = ARRIVAL_TIME - SCHEDULED_ARRIVAL
+
+Jeg ændrede følgende på tabellen 'airports':
+* Tilføjede koordinater 30.35833,-85.79556 til ECP
+* Tilføjede koordinater 44.65083,-73.46806 til PBG
+* Tilføjede koordinater 29.95925,-81.339722 til UST
+* Ændrede fortegn på længdegrad for GUM fra -144.79598 til 144.79598
+* Ændrede fortegn på breddegrad for PPG fra 14.33102 til -14.33102
