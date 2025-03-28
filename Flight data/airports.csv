@@ -136,7 +136,7 @@ GST,Gustavus Airport,Gustavus,AK,USA,58.42438,-135.70738
 GTF,Great Falls International Airport,Great Falls,MT,USA,47.48200,-111.37069
 GTR,Golden Triangle Regional Airport,Columbus-Starkville-West Point,MS,USA,33.45033,-88.59137
 GUC,Gunnison-Crested Butte Regional Airport,Gunnison,CO,USA,38.53396,-106.93318
-GUM,Guam International Airport,Agana,GU,USA,13.48345,-144.79598
+GUM,Guam International Airport,Agana,GU,USA,13.48345,144.79598
 HDN,Yampa Valley Airport (Yampa Valley Regional),Hayden,CO,USA,40.48118,-107.21766
 HIB,Range Regional Airport (Chisholm-Hibbing Airport),Hibbing,MN,USA,47.38660,-92.83899
 HLN,Helena Regional Airport,Helena,MT,USA,46.60682,-111.98275
@@ -245,7 +245,7 @@ PIH,Pocatello Regional Airport,Pocatello,ID,USA,42.91131,-112.59586
 PIT,Pittsburgh International Airport,Pittsburgh,PA,USA,40.49147,-80.23287
 PLN,Pellston Regional Airport of Emmet County,Pellston,MI,USA,45.57093,-84.79672
 PNS,Pensacola International Airport (Pensacola Gulf Coast Regional Airport),Pensacola,FL,USA,30.47331,-87.18744
-PPG,Pago Pago International Airport (Tafuna Airport),Pago Pago,AS,USA,14.33102,-170.71053
+PPG,Pago Pago International Airport (Tafuna Airport),Pago Pago,AS,USA,-14.33102,-170.71053
 PSC,Tri-Cities Airport,Pasco,WA,USA,46.26468,-119.11903
 PSE,Mercedita Airport,Ponce,PR,USA,18.00830,-66.56301
 PSG,Petersburg James A. Johnson Airport,Petersburg,AK,USA,56.80165,-132.94528
